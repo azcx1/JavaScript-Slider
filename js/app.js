@@ -1,72 +1,83 @@
-const controlPanel = document.querySelector('.control-panel'); // Get the control panel
+const controlPanel = document.querySelector('.control-panel'); // get control panel
 
-if(controlPanel){ // If the control panel exists
-    const sliderImage = document.querySelector('.slider-image');
-    const slider_img = ['img1.jpg', 'img2.jpg', 'img3.webp']; // Array of images
-    const playPauseButton = document.querySelector('.pause'); // Przycisk pauzy
-    const playIcon = document.querySelector('#play-icon'); // Ikona pauzy/play
-
-    let bullets = [];
-    let currentIndex = 0;
+if(controlPanel){ // if control panel exists
+    const slideTime = 10000; // time to change slide
     let slideInterval;
-    let isPaused = false;
-    let elapsedTime = 0;
-    let startTime;
-    let animationFrame;
+    let currentIndex = 0;
+    const images = ['img1.jpg', 'img2.jpg', 'img3.webp']; // array of images
 
-    slider_img.forEach((image, index) =>{ // Loop through the images
-        const bullet = document.createElement('div'); // Create a bullet
-        bullet.classList.add('bullet'); // Add the bullet class
+    function startSlideInterval(){ // function to start the slide interval
+        slideInterval = setInterval(()=>{ // set the interval
+           let nextIndex = (currentIndex + 1)%images.length; // get the next index
+           ChangeSlide(nextIndex); // change the slide
+        }, slideTime); // set the interval time
+    }
+    function resetSlideInterval() { // function to reset the slide interval
+        clearInterval(slideInterval); // clear the interval
+        startSlideInterval(); // start the interval
+    }
 
+    function bulletAnimation(bulletLoad){
+        bulletLoad.style.width = "0%";
+        setTimeout(() => bulletLoad.style.width = "100%", 10);
+    }
+
+    // let pause = 0; //pause variable to check if the slide is paused or not
+    // const picon = document.querySelector('#play-icon'); //get play icon
+    //
+    // document.querySelector('.pause')?.addEventListener('click', ()=>{ //pause button event listener
+    //     if(picon.classList.contains('fa-pause')){ //if play icon is pause
+    //         picon.classList.remove('fa-pause');
+    //         picon.classList.add('fa-play'); //change icon to play
+    //         pause = 1; //set pause to 1
+    //     }else{
+    //         picon.classList.remove('fa-play'); //if play icon is play
+    //         picon.classList.add('fa-pause'); //change icon to pause
+    //         pause = 0; //set pause to 0
+    //     }
+    // })
+
+    images.forEach((image,index)=>{ // loop through the images
+        const bullet = document.createElement('div'); // create a bullet
+        bullet.classList.add('bullet'); // add the bullet class
         if(index === 0){ // give the first bullet the active class
-            bullet.classList.add('active');
-            const bulletLoad = document.createElement('div'); // Create a bullet load
-            bulletLoad.classList.add('bullet-load'); // Add the bullet load class
-            bullet.appendChild(bulletLoad); // Append the bullet load to the bullet
-            setTimeout(() => bulletLoad.style.width = "100%", 10);
+            bullet.classList.add('active'); // add the active class
+            const bulletInside = document.createElement('div'); // create a bullet inside for loading animation
+            bulletInside.classList.add('bullet-load'); // add the bullet load class
+            bullet.appendChild(bulletInside); // append the bullet load to the bullet
+            bulletAnimation(bulletInside); // animate the bullet
         }
-        controlPanel.appendChild(bullet); // Append the bullet to the control panel
-        bullets.push(bullet);
-        console.log(index);
+        controlPanel.appendChild(bullet); // append the bullet to the control panel
 
-        bullet.addEventListener('click', ()=>{
-            changeSlide(index);
-            resetTimer();
+        bullet.addEventListener('click', ()=>{ // add click event listener to the bullet
+            ChangeSlide(index); // change the slide
+            resetSlideInterval(); // reset the slide interval
         });
     });
 
-    function changeSlide(newIndex){
-        const activeBullet = document.querySelector('.bullet.active');
-        if(activeBullet){
-            const bulletLoad = activeBullet.querySelector('.bullet-load');
-            if(bulletLoad){
-                activeBullet.classList.remove('active');
-                bulletLoad.remove();
+    const sliderImage = document.querySelector('.slider-image'); // get the slider image
+
+    function ChangeSlide(newIndex){ // function to change the slide
+        const activeBullet = document.querySelector('.bullet.active'); // get the active bullet
+        if(activeBullet){ // if the active bullet exists
+            const bulletLoad = activeBullet.querySelector('.bullet-load'); // get the bullet load
+            if(bulletLoad){ // if the bullet load exists
+                activeBullet.classList.remove('active'); // remove the active class
+                bulletLoad.remove(); // remove the bullet load
             }
         }
-        currentIndex = newIndex;
-        bullets[currentIndex].classList.add('active');
-        const newBulletLoad = document.createElement('div');
-        newBulletLoad.classList.add('bullet-load');
-        bullets[currentIndex].appendChild(newBulletLoad);
+        currentIndex = newIndex; // set the current index
 
-        sliderImage.src = `img/${slider_img[currentIndex]}`;
-        setTimeout(() => newBulletLoad.style.width = "100%", 10);
+        const newBullet = document.querySelectorAll('.bullet')[newIndex]; // get the new bullet
+        newBullet.classList.add('active'); // add the active class
+        const newBulletLoad = document.createElement('div'); // create a new bullet load
+        newBulletLoad.classList.add('bullet-load'); // add the bullet load class
+        newBullet.appendChild(newBulletLoad); // append the bullet load to the bullet
+
+        sliderImage.src = `img/${images[newIndex]}`; // change the image
+
+        bulletAnimation(newBulletLoad); // animate the bullet
     }
 
-    function nextSlide() {
-        changeSlide((currentIndex + 1) % slider_img.length);
-    }
-
-    function startTimer() {
-        slideInterval = setInterval(nextSlide, 10000);
-    }
-
-    function resetTimer() {
-        clearInterval(slideInterval);
-        startTimer();
-    }
-
-    startTimer();
+    startSlideInterval(); // start the slide interval
 }
-

@@ -2,27 +2,28 @@
     margin: 0;
     font-family: 'JetBrains Mono', monospace;
 }
+
 .slider{
-    width:100%;
+    width: 100%;
     height: 480px;
-    background:#f2f2f2;
+    border-bottom: 3px solid #cacaca;
 }
 .slider-content{
     height: 100%;
-    display: flex;
     position: relative;
+    display: flex;
     align-items: flex-end;
     justify-content: flex-end;
 }
-.slider img{
+.slider-content img{
     width: 100%;
     height: 100%;
     object-fit: cover;
     position: absolute;
 }
 .control-panel{
-    height: 20px;
     z-index: 2;
+    height: 20px;
     background: rgba(213, 213, 213, 0.45);
     border-radius: 10px;
     color: #fff;
@@ -32,13 +33,11 @@
     align-items: center;
     padding: 10px;
     gap: 10px;
-    text-align: center;
 }
 .control-panel:last-child{
     margin-right: 10vw;
 }
 .pause{
-    width: 30px;
     cursor: pointer;
 }
 .bullet{
@@ -54,7 +53,6 @@
 .bullet.active{
     width: 38px;
 }
-
 .bullet-load{
     width: 0%;
     height: 100%;
