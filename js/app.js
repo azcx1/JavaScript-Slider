@@ -21,7 +21,7 @@ if(controlPanel){ // if controlPanel exist them:
     function nextIndex(){ //change bullet function auto
         curBulletAct(bullets[bIndex]); //set bullet with next index
     }
-
+    const sliderImage = document.querySelector('.slider-image');
     function curBulletAct(target){ // function to change active bullet
         const lActive = controlPanel.querySelector('.active'); // get element with active class
         if(lActive) lActive.classList.remove('active'); // remove active claass from element
@@ -31,6 +31,7 @@ if(controlPanel){ // if controlPanel exist them:
         const bulletInside = controlPanel.querySelector('.bullet-load'); // get div inside bullet
         if(bulletInside) bulletInside.remove(); //remove this element
         target.appendChild(bulletInside); //add this element to new active div
+        sliderImage.src=`img/${images[bullets.indexOf(target)]}`; //change image source
     }
 
     let slideInterval; // interval
