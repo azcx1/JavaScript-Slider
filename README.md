@@ -5,11 +5,11 @@ A simple and customizable JavaScript slider. You can easily paste this into your
 
 ## Functions
 
--change slide after some time
+-Change slide after some time
 
--change slide manually
+-Change slide manually
 
-- Stop & play button
+-Stop & play button
 
 
 ## Demo
