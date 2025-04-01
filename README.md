@@ -3,7 +3,11 @@
 A simple and customizable JavaScript slider. You can easily paste this into your project and customize it.
 
 
-## Roadmap
+## Functions
+
+-change slide after some time
+
+-change slide manually
 
 - Stop & play button
 
