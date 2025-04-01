@@ -54,8 +54,17 @@
     width: 38px;
 }
 .bullet-load{
-    width: 0%;
+    width: 0;
     height: 100%;
     background: #3fa630;
-    transition: width 10s linear;
+    transition: width 1s linear;
+}
+
+@media only screen and (max-width: 600px) {
+    .control-panel:last-child {
+        margin-right: 0;
+    }
+    .slider-content {
+        justify-content: center
+    }
 }
